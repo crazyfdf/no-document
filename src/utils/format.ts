@@ -1,0 +1,29 @@
+import { CSSProperties } from 'vue';
+import { isDef, isNumeric } from './validate';
+
+export function addUnit(value?: string | number): string | undefined {
+  if (isDef(value)) {
+    return isNumeric(value) ? `${value}px` : String(value);
+  }
+  return undefined;
+}
+
+export function getSizeStyle(
+  originSize?: string | number
+): CSSProperties | undefined {
+  if (isDef(originSize)) {
+    const size = addUnit(originSize);
+    return {
+      width: size,
+      height: size,
+    };
+  }
+}
+
+export function getZIndexStyle(zIndex?: string | number) {
+  const style: CSSProperties = {};
+  if (zIndex !== undefined) {
+    style.zIndex = +zIndex;
+  }
+  return style;
+}

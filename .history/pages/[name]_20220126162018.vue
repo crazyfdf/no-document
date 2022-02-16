@@ -1,0 +1,15 @@
+<template>
+  <component :is="componentSync" v-if="componentSync" />
+</template>
+<script lang="ts" setup>
+const route = useRoute();
+console.log(route.params.componentName);
+const componentSync = () =>
+  useState("componentSync", () =>
+    defineAsyncComponent(() => import(`@/components/${route.params.componentName}/index.vue`))
+  );
+onMounted(() => {
+  // component();
+});
+</script>
+<style scoped></style>

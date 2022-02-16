@@ -1,0 +1,31 @@
+<template>
+  <component :is="componentSync" v-if="componentSync" />
+  <DataTable :value="products" responsiveLayout="scroll">
+    <Column field="code" header="Code"></Column>
+    <Column field="name" header="Name"></Column>
+    <Column field="category" header="Category"></Column>
+    <Column field="quantity" header="Quantity"></Column>
+  </DataTable>
+</template>
+<script lang="ts" setup>
+const route = useRoute();
+const componentName = route.params.name;
+const context = import.meta.globEager("../../src/components/**/index.vue");
+console.log(context);
+
+const componentSync = context[`../../src/components/${componentName}/index.vue`].default;
+
+const { data } = await useFetch(
+  `http://localhost:3000/api/componentPath?component=${componentName}`
+);
+const componentAST = data.value.componentsAST[0];
+console.log(componentAST);
+
+onMounted(() => {
+  productService.value.getProductsSmall().then((data) => (products.value = data));
+});
+
+const products = ref();
+const productService = ref(new ProductService());
+</script>
+<style scoped></style>

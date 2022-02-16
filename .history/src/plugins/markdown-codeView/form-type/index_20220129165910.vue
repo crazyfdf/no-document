@@ -1,0 +1,55 @@
+<template>
+  <component :is="formType" v-model="_value"></component>
+</template>
+<script lang="ts" setup>
+import InputNumber from "primevue/inputnumber";
+import InputSwitch from "primevue/inputswitch";
+import InputText from "primevue/inputtext";
+import MultiSelect from "primevue/multiselect";
+import Slider from "primevue/slider";
+import Textarea from "primevue/textarea";
+import ColorPicker from "primevue/colorpicker";
+import Dropdown from "primevue/dropdown";
+const props = defineProps({
+  type: {
+    type: String,
+    require: true,
+  },
+  value: {
+    type: String,
+    require: true,
+  },
+});
+const emit = defineEmits(["change"]);
+const _value = useState("_value", () => props.value);
+watch(_value, () => {
+  console.log(_value.value);
+});
+function onChange(e) {
+  console.log(e.target.value);
+}
+const formType = computed(() => {
+  console.log(props.type);
+  switch (props.type) {
+    case "string":
+      return InputText;
+    case "number":
+      return InputNumber;
+    case "boolean":
+      return InputSwitch;
+    case "array":
+      return MultiSelect;
+    case "color":
+      return ColorPicker;
+    case "select":
+      return Dropdown;
+    case "progress":
+      return Slider;
+    case "text":
+      return Textarea;
+    default:
+      return InputNumber;
+  }
+});
+</script>
+<style scoped></style>

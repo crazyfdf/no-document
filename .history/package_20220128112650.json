@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "yarn && nuxi dev",
+    "build": "nuxi build",
+    "start": "node .output/server/index.mjs",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@storybook/addon-actions": "^6.4.14",
+    "@storybook/addon-essentials": "^6.4.14",
+    "@storybook/addon-links": "^6.4.14",
+    "@storybook/vue3": "^6.4.14",
+    "babel-loader": "^8.2.3",
+    "nuxt3": "latest",
+    "vue-loader": "^16.8.3",
+    "@types/prismjs": "^1.16.6",
+    "prismjs": "^1.25.0"
+  },
+  "dependencies": {
+    "glob": "^7.2.0",
+    "primevue": "^3.11.0",
+    "vue-docgen-api": "^4.41.2"
+  }
+}
