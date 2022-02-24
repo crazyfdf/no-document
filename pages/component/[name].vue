@@ -6,7 +6,13 @@
     <el-row class="y-components" v-if="!loading">
       <el-col :span="18">
         <client-only>
-          <code-view :context="context" :path="path" :code="code" :componentProps="componentProps">
+          <code-view
+            :context="context"
+            :path="path"
+            :code="code"
+            :componentProps="componentProps"
+            @importImg="importImg"
+          >
             {{ componentAST.description }}
           </code-view>
         </client-only>
@@ -338,6 +344,38 @@ const contents = computed(() => {
   _data.methods && _contents.push("Methods");
   return _contents;
 });
+const base64ToUint8Array = (base64String: string) => {
+  let padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  let base64 = (base64String + padding).replace(/\-/g, "+").replace(/_/g, "/");
+  let rawData = window.atob(base64);
+  let outputArray = new Uint8Array(rawData.length);
+
+  for (var i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+};
+const importImg = ({ img, width, height }) => {
+  const _imgUrl = base64ToUint8Array(img.substring(img.indexOf(",") + 1));
+  // downImg(imgUrl, componentAST.value.displayName);
+  window.parent.postMessage(
+    {
+      cmd: componentAST.value.displayName,
+      params: { imgUrl: _imgUrl, width, height },
+    },
+    "*"
+  );
+};
+function downImg(imgData, imgName) {
+  let aLink = document.createElement("a");
+  aLink.style.display = "none";
+  aLink.href = imgData;
+  aLink.download = `${imgName}.png`;
+  // 触发点击-然后移除
+  document.body.appendChild(aLink);
+  aLink.click();
+  document.body.removeChild(aLink);
+}
 </script>
 <style scoped>
 .y-props {

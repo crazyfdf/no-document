@@ -43,9 +43,10 @@ import { getSizeStyle } from "../../utils";
 const props = defineProps({
   /**
    * 圆环宽度（icon不支持）
+   * @type number
    */
   strokeWidth: {
-    type: Number,
+    type: [Number, String],
     default: 4,
   },
   /**
@@ -73,8 +74,9 @@ const props = defineProps({
   },
   /**
    * 圆环大小
+   * @type number
    */
-  size: { type: Number, default: 18 },
+  size: { type: [Number, String], default: 18 },
 
   /**
    * 是否正在加载
