@@ -40,49 +40,45 @@
 import { PropType, computed } from "vue";
 import { getSizeStyle } from "../../utils";
 
-const props = defineProps({
-  /**
-   * 圆环宽度（icon不支持）
-   * @type number
-   */
-  strokeWidth: {
-    type: [Number, String],
-    default: 4,
-  },
-  /**
-   * 动画持续时间
-   */
-  animationDuration: {
-    type: String,
-    default: "2s",
-  },
-  /**
-   * 圆环颜色（只支持纯色）
-   * @type color
-   */
-  color: {
-    type: String,
-  },
-  /**
-   * 圆环类型
-   * @type radio
-   * @values svg,icon
-   */
-  type: {
-    type: String as PropType<"svg" | "icon">,
-    default: "icon",
-  },
-  /**
-   * 圆环大小
-   * @type number
-   */
-  size: { type: [Number, String], default: 18 },
+const props = withDefaults(
+  defineProps<{
+    /**
+     * 圆环宽度（icon不支持）
+     */
+    strokeWidth?: number | string;
+    /**
+     * 动画持续时间
+     */
+    animationDuration?: string;
+    /**
+     * 圆环颜色（只支持纯色）
+     * @type color
+     */
+    color?: string;
+    /**
+     * 圆环类型
+     * @type radio
+     * @values svg,icon
+     */
+    type?: "svg" | "icon";
+    /**
+     * 圆环大小
+     */
+    size?: number | string;
 
-  /**
-   * 是否正在加载
-   */
-  loading: { type: Boolean, default: true },
-});
+    /**
+     * 是否正在加载
+     */
+    loading?: boolean;
+  }>(),
+  {
+    strokeWidth: 4,
+    animationDuration: "2s",
+    type: "svg",
+    size: 18,
+    loading: true,
+  }
+);
 const svgStyle = computed(() => ({
   "animation-duration": props.animationDuration,
 }));

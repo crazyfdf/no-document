@@ -140,9 +140,14 @@ async function init() {
   componentAST.value = data.value.componentAST;
   let _componentProps = {};
   componentAST.value.props.map((item) => {
-    let defaultValue = item.defaultValue
-      ? JSON.parse(item.defaultValue.value)
-      : typeDefault(item.type.name.toLowerCase());
+    let defaultValue;
+    try {
+      defaultValue = item.defaultValue
+        ? JSON.parse(item.defaultValue.value)
+        : typeDefault(item.type.name.toLowerCase());
+    } catch (error) {
+      console.log(error);
+    }
     if (item.required) {
       _componentProps = Object.assign(_componentProps, { [item.name]: defaultValue });
     }
@@ -183,21 +188,28 @@ const propsData = computed(
     componentAST.value.props &&
     componentAST.value.props.map((item) => {
       let type = item.type.name.toLowerCase();
-      let defaultValue = item.defaultValue
-        ? JSON.parse(item.defaultValue.value)
-        : typeDefault(type);
+      let defaultValue;
+      try {
+        defaultValue = item.defaultValue ? JSON.parse(item.defaultValue.value) : typeDefault(type);
+      } catch (error) {
+        console.log(error);
+      }
       let moreProps = {};
       if (item.tags?.input) {
-        moreProps = {
-          ...moreProps,
-          ...item.tags.input[0].description.split(",").reduce((pre, cur) => {
-            let [key, value] = cur.split("=");
-            return {
-              ...pre,
-              [key]: JSON.parse(value),
-            };
-          }, {}),
-        };
+        try {
+          moreProps = {
+            ...moreProps,
+            ...item.tags.input[0].description.split(",").reduce((pre, cur) => {
+              let [key, value] = cur.split("=");
+              return {
+                ...pre,
+                [key]: JSON.parse(value),
+              };
+            }, {}),
+          };
+        } catch (error) {
+          console.log(error);
+        }
       }
       if (item.tags?.type) {
         type = item.tags.type[0].description;
@@ -278,7 +290,7 @@ const slotsData = computed(
       if (item.bindings) {
         item.bindings.forEach((_params) => {
           params.push(
-            `${_params.name}: ${_params.type.name}${
+            `${_params.name}: ${_params.type?.name}${
               _params.description && ` - ${_params.description}`
             }`
           );
@@ -318,7 +330,13 @@ const code = computed(() => {
   let _code = `<${componentName.value}`;
   Object.entries(componentProps.value).map(([key, value]) => {
     const isNotString = dataType(value) !== "String" && dataType(value) !== "Date";
-    _code += `\n  ${isNotString ? ":" : ""}${key}="${isNotString ? JSON.stringify(value) : value}"`;
+    try {
+      _code += `\n  ${isNotString ? ":" : ""}${key}="${
+        isNotString ? JSON.stringify(value) : value
+      }"`;
+    } catch (error) {
+      console.log(error);
+    }
   });
   _code += `>\n</${componentName.value}>`;
 

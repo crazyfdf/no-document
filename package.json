@@ -14,12 +14,16 @@
     "prismjs": "^1.25.0",
     "unplugin-auto-import": "^0.5.11",
     "unplugin-vue-components": "^0.17.16",
+    "vite-plugin-md2vue": "^1.1.1",
     "vue-loader": "^16.8.3"
   },
   "dependencies": {
+    "@yaochn/vue-icons": "^1.16.0",
     "element-plus": "^2.0.1",
     "glob": "^7.2.0",
     "html2canvas": "^1.4.1",
+    "primeicons": "^5.0.0",
+    "primevue": "^3.12.0",
     "vue-docgen-api": "^4.44.15"
   }
 }

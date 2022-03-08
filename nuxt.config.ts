@@ -5,5 +5,10 @@ export default defineNuxtConfig({
   alias: {
     "@": resolve(__dirname, "./src"),
   },
-  css: ["element-plus/dist/index.css"],
+  css: [
+    "element-plus/dist/index.css",
+    "primevue/resources/themes/saga-blue/theme.css",
+    "primevue/resources/primevue.css",
+    "primeicons/primeicons.css",
+  ],
 });

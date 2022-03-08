@@ -1,5 +1,5 @@
-import { CSSProperties } from 'vue';
-import { isDef, isNumeric } from './validate';
+import { CSSProperties } from "vue";
+import { isDef, isNumeric } from "./types";
 
 export function addUnit(value?: string | number): string | undefined {
   if (isDef(value)) {
@@ -8,9 +8,7 @@ export function addUnit(value?: string | number): string | undefined {
   return undefined;
 }
 
-export function getSizeStyle(
-  originSize?: string | number
-): CSSProperties | undefined {
+export function getSizeStyle(originSize?: string | number): CSSProperties | undefined {
   if (isDef(originSize)) {
     const size = addUnit(originSize);
     return {

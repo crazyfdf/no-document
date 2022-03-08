@@ -1,17 +1,51 @@
 <template>
-  <button>asd</button>
-  <div slot-scope="row" class="list-item1">
-    <!--
+  <div>
+    <div slot-scope="row" class="list-item1">
+      <!--
   	@slot Menu Item footer
 		@binding {object} icon icon of the menu item
 		@binding {string} text text of the menu item
 	  -->
-    <slot name="test" :icon="row.item.icon" :text="row.item.text" />
-    {{ row.item.text }}
+      <slot name="test" :icon="row.item.icon" :text="row.item.text" />
+      {{ row.item.text }}
+    </div>
+    <div>
+      <y-calendar
+        v-model="date"
+        show-button-bar
+        show-time
+        selectionMode="multiple"
+        view="month"
+        :min-date="new Date()"
+      />
+      <y-time-picker v-model="time" show-button-bar format="HH:mm:ss" />
+    </div>
+    <div>
+      <button @click="showSuccess">Success</button>
+    </div>
+    <y-toast :base-z-index="99999" :auto-z-index="true" />
   </div>
 </template>
 
 <script lang="ts" setup name="Example">
+import YToast from "../toast/index.vue";
+import { useToast } from "../toast";
+import YCalendar from "../calendar/index.vue";
+import YTimePicker from "../time-picker/index.vue";
+
+const toast = useToast();
+
+const showSuccess = () => {
+  toast.add({
+    severity: "warning",
+    detail: "Message Content",
+    title: "你好",
+  });
+};
+
+const date = ref("");
+const time = ref("");
+
 /**
  * This is a Example.
  * @see [Spinner](http://localhost:3000/component/example)
@@ -104,7 +138,7 @@ withDefaults(
 const row = ref({
   item: {
     icon: "IconMenu",
-    text: "asd",
+    text: "",
   },
 });
 </script>
