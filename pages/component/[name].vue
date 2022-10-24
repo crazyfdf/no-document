@@ -192,7 +192,7 @@ const propsData = computed(
       try {
         defaultValue = item.defaultValue ? JSON.parse(item.defaultValue.value) : typeDefault(type);
       } catch (error) {
-        console.log(error);
+        console.log(error, item.name);
       }
       let moreProps = {};
       if (item.tags?.input) {
